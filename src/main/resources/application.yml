@@ -1,0 +1,28 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+      
+spring:
+  datasource:
+    #driver-class-name: com.mysql.cj.jdbc.Driver >> mysql
+    driver-class-name: oracle.jdbc.OracleDriver # >> oracle
+    url: jdbc:oracle:thin:@127.0.0.1:1521:XE
+    username: sec
+    password: sec
+    
+  #mvc: 의존 설정에 의해 기본 경로로 지정됨
+    #view:
+      #prefix: /templates/
+      #suffix: .mustache
+
+  jpa:
+    hibernate:
+      ddl-auto: create #create update none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
