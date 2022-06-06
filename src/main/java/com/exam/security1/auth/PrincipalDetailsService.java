@@ -18,13 +18,11 @@ public class PrincipalDetailsService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	
-	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { // input 태그 name = username으로 하거나 시큐리티 설정에 .usernameParameter() 추가
 		User userEntity = userRepository.findByUsername(username);
 		if(userEntity != null) {
-			return new PrincipalDetails(userEntity); // --> 시큐리티 session ( Authentication ( Principal Details ) )
+			return new PrincipalDetails(userEntity); // --> 시큐리티 session ( Authentication ( Principal Details ) ) : 시큐리티 세션의 authentication 객체에 principal details 저장
 		}
 		return null;
 	}
