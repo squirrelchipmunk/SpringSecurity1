@@ -30,6 +30,9 @@ public class SecurityConfig{
         	.loginPage("/loginForm")
         	.loginProcessingUrl("/login") // /login 호출되면 시큐리티가 대신 로그인 진행
         	.defaultSuccessUrl("/") // 로그인페이지에서 로그인을 하면 /로 이동하지만 다른 요청을 통해 로그인을 하면 해당 요청으로 이동
+        	.and()
+        	.oauth2Login()
+        	.loginPage("/loginForm") // 구글 로그인 후처리 필요
         	;
         	
         return http.build();
