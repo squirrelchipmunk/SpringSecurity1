@@ -37,5 +37,7 @@ public class User {
 	
 	@CreationTimestamp
 	private Timestamp createDate;
-	
+
+	private String provider; // google
+	private String providerId; // sub
 }
