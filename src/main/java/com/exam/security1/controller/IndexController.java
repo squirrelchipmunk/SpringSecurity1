@@ -1,5 +1,7 @@
 package com.exam.security1.controller;
 
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.exam.security1.model.User;
 import com.exam.security1.repository.UserRepository;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -62,6 +63,16 @@ public class IndexController {
 		return "redirect:/loginForm";
 	}
 	
+	@Secured("ROLE_ADMIN") // 특정 메서드에 권한 부여
+	@GetMapping("/info")
+	public @ResponseBody String info() {
+		return "개인정보";
+	}
 	
+	@PreAuthorize("hasRole('ROLE_MANAGER') OR hasRole('ROLE_ADMIN')") // data() 전에 실행. 2개 이상의 권한 부여에 사용
+	@GetMapping("/data")
+	public @ResponseBody String data() {
+		return "data";
+	}	
 	
 }
