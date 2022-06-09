@@ -1,5 +1,7 @@
 package com.exam.security1.config.oauth;
 
+import java.util.Map;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.exam.security1.auth.PrincipalDetails;
 import com.exam.security1.config.oauth.provider.FacebookUserInfo;
 import com.exam.security1.config.oauth.provider.GoogleUserInfo;
+import com.exam.security1.config.oauth.provider.NaverUserInfo;
 import com.exam.security1.config.oauth.provider.OAuth2UserInfo;
 import com.exam.security1.model.User;
 import com.exam.security1.repository.UserRepository;
@@ -27,6 +30,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	//함수 종료 시 @AuthenticationPrincipal 어노테이션 만들어진다
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+		System.out.println("OAuth2.0 로그인 시도");
 		System.out.println("userRequest : "+userRequest.getClientRegistration()); // 어떤 OAuth로 로그인 했는지..(구글, 페이스북)
 		System.out.println("userRequest : "+userRequest.getAccessToken().getTokenValue());
 		
@@ -45,8 +49,12 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			System.out.println("페이스북 로그인 요청");
 			oAuth2UserInfo = new FacebookUserInfo(oauth2User.getAttributes());
 		}
+		else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")){
+			System.out.println("네이버 로그인 요청");
+			oAuth2UserInfo = new NaverUserInfo((Map)oauth2User.getAttributes().get("response"));
+		}
 		else {
-			System.out.println("구글과 페이스북만 지원합니다.");
+			System.out.println("구글과 페이스북과 네이버만 지원합니다.");
 		}
 		
 		String provider = oAuth2UserInfo.getProvider();
